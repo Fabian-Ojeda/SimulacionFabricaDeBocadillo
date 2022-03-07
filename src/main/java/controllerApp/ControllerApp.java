@@ -2,14 +2,17 @@ package controllerApp;
 
 import model.Production;
 import view.MainWindow;
+import view.Results;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ControllerApp implements ActionListener {
 
     private Production production;
     private MainWindow mainWindow;
+    private Results results;
 
     public ControllerApp() {
         System.out.println("kios");
@@ -17,7 +20,7 @@ public class ControllerApp implements ActionListener {
 
         mainWindow = new MainWindow(this);
         mainWindow.setVisible(true);
-
+        results = new Results();
     }
 
     //Listener de las pulsaciones de los botones
@@ -35,5 +38,8 @@ public class ControllerApp implements ActionListener {
     private void initSimulation(){
         production.generateStations(mainWindow.getValueRecept(),mainWindow.getValueCooking(), mainWindow.getValueMold(), mainWindow.getValueCutting(), mainWindow.getValueLabeled());
         production.startProduction();
+        results.setHistory(production.getStages());
+        results.setTotalProduction(production.getTotalProduction());
+        results.setVisible(true);
     }
 }

@@ -1,8 +1,9 @@
 import view.MainWindow;
+import view.Results;
 
 public class testWindow {
     public static void main(String[] args) {
-        /*MainWindow m = new MainWindow();
-        m.setVisible(true);*/
+        Results m = new Results();
+        m.setVisible(true);
     }
 }

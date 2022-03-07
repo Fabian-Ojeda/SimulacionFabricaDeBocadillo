@@ -24,7 +24,6 @@ public class MainWindow extends JFrame {
     private JButton buttonInitSimulation;
 
     public MainWindow(ControllerApp controllerApp){
-        //gridSystem = new GridSystem(this);
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLayout(new BorderLayout());
         this.setTitle("Fabrica de bocadillos <Inserte nombre>");
@@ -32,7 +31,6 @@ public class MainWindow extends JFrame {
         this.setPreferredSize(new Dimension((screenSize.width/2),(screenSize.height/2)));
 
         this.getContentPane().setBackground(Color.CYAN);
-        //this.initComponents(controllerApp);
         this.initComponents(controllerApp);
         this.pack();
         setLocationRelativeTo(null);

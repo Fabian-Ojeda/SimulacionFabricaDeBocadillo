@@ -14,6 +14,9 @@ public class Production {
     private int timeAdvanceDay;
     private int pastMinutes;
     private int excedentMinutesStartingDay;
+    private int totalProduction;
+    private ArrayList<String> stages;
+
     public Production(){
         arrayStations = new ArrayList<>();
         iteratorProcess = 1;
@@ -23,6 +26,7 @@ public class Production {
         timeAdvanceDay=0;
         pastMinutes = 0;
         excedentMinutesStartingDay = 0;
+        stages = new ArrayList<>();
     }
 
     public void generateStations(int valueRecept, int valueCooking, int valueMold, int valueCutting, int valueLabeled){
@@ -42,18 +46,22 @@ public class Production {
     }
 
     public void startProduction(){
+        stages.clear();
         days = 1;
-        int total =0;
+        totalProduction =0;
         String status = "";
+        stages.add("Inicio de la simulación\n\nActividades del dia 1\n");
         while (days <= 25){
-            System.out.println("\n\n");
+            stages.add("\n");
+            //System.out.println("\n\n");
             if(pastMinutes-minutesNextDay>0) {
                 excedentMinutesStartingDay = pastMinutes-minutesNextDay;
                 if (excedentMinutesStartingDay-minutesWork>0){
                     pastMinutes = excedentMinutesStartingDay-minutesWork;
                     status="waiting";
                     days++;
-                    System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
+                    //stages.add("Pasamos a otro dia, se iniciara el dia "+days+"\n");
+                    //System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
                 } else {
                     pastMinutes = 0;
                     lastStart = excedentMinutesStartingDay;
@@ -69,8 +77,10 @@ public class Production {
 
             switch (status){
                 case "waiting":
-                    System.out.println("se debe seguir esperando, la información actual es la siguiente:\nminutos pasados: "+pastMinutes+
-                            "\nUltima salida: "+lastStart);
+                    stages.add(("A pesar del paso de la noche, el proceso anterior requiere más tiempo, se debe seguir esperando y continuar el siguiente dia\nla tarea excede en "+pastMinutes+
+                            " el tiempo de la jornada laboral\n\nActividades del dia "+days+"\n"));
+                    /*System.out.println("se debe seguir esperando, la información actual es la siguiente:\nminutos pasados: "+pastMinutes+
+                            "\nUltima salida: "+lastStart);*/
                     break;
                 case "continue":
 
@@ -78,19 +88,25 @@ public class Production {
                     arrayStations.get(iteratorProcess-1).executeStation();
                     timeAdvanceDay = arrayStations.get(iteratorProcess-1).getEnd();
                     lastStart = timeAdvanceDay;
-                    System.out.println("inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " "+arrayStations.get(iteratorProcess-1).getName()+" con tiempo "+timeAdvanceDay);
-                    if (iteratorProcess==5){
-                        total++;
-                        iteratorProcess = 1;
-                    }else {
-                        iteratorProcess++;
-                    }
-                    System.out.println("Información de la ejecución: \nminutos pasados: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart);
+                    stages.add("Tarea: "+arrayStations.get(iteratorProcess-1).getName()+" Minuto de inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " minuto de finalización: "+timeAdvanceDay+"\n");
+                    //stages.add("inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " "+arrayStations.get(iteratorProcess-1).getName()+" con tiempo "+timeAdvanceDay+"\n");
+                    //System.out.println("inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " "+arrayStations.get(iteratorProcess-1).getName()+" con tiempo "+timeAdvanceDay);
                     if (timeAdvanceDay > minutesWork){
                         pastMinutes = timeAdvanceDay-minutesWork;
                         days++;
-                        System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
+                        stages.add("El tiempo de ejecución de la tarea excede en "+pastMinutes +" minutos el tiempo de la jornada laboral, se debe continuar el siguiente dia\n\nActividades del dia "+days+"\n");
+                        //System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
                     }
+                    if (iteratorProcess==5){
+                        totalProduction++;
+                        iteratorProcess = 1;
+                        stages.add("\nEN ESTE PUNTO SE HA TERMINADO DE FABRICAR UNA TONELADA\n");
+                    }else {
+                        iteratorProcess++;
+                    }
+                    //stages.add("Información de la ejecución: \nminutos pasados: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart+"\n");
+                    //System.out.println("Información de la ejecución: \nminutos pasados: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart);
+
                     break;
                 case "sameJourney":
                     if(lastStart==0){
@@ -102,16 +118,22 @@ public class Production {
                     timeAdvanceDay = arrayStations.get(iteratorProcess-1).getEnd();
                     lastStart = timeAdvanceDay;
 
-                    System.out.println("inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " "+arrayStations.get(iteratorProcess-1).getName()+" con tiempo "+timeAdvanceDay);
-                    System.out.println("Información de la ejecución: \nminutos pasados: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart);
+                    stages.add("Tarea: "+arrayStations.get(iteratorProcess-1).getName()+" minuto de inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " minuto de finalización: "+timeAdvanceDay+"\n");
+                    //stages.add("Información de la ejecución: \nminutos excedidos del tiempo laboral: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart+"\n");
+
+                    //System.out.println("inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " "+arrayStations.get(iteratorProcess-1).getName()+" con tiempo "+timeAdvanceDay);
+                    //System.out.println("Información de la ejecución: \nminutos pasados: "+pastMinutes+"\ntiempo avanzado: "+timeAdvanceDay+"\nultima salida: "+lastStart);
+
                     if (timeAdvanceDay > minutesWork){
                         pastMinutes = timeAdvanceDay-minutesWork;
                         days++;
-                        System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
+                        stages.add("El tiempo de ejecución de la tarea excede en "+pastMinutes +" minutos el tiempo de la jornada laboral, se debe continuar el siguiente dia\n\nActividades del dia "+days+"\n");
+                        //System.out.println("Pasamos a otro dia, se iniciara el dia "+days);
                     }
                     if (iteratorProcess==5){
-                        total++;
+                        totalProduction++;
                         iteratorProcess = 1;
+                        stages.add("\nEN ESTE PUNTO SE HA TERMINADO DE FABRICAR UNA TONELADA\n");
                     }else {
                         iteratorProcess++;
                     }
@@ -120,12 +142,20 @@ public class Production {
                     break;
             }
         }
-
-        System.out.println("Pasados  "+days+ " dias se obtiene un total de "+total+ " cajas producidas");
+        stages.add("Pasados  "+days+ " dias se obtiene un total de "+totalProduction+ " cajas producidas");
+        //System.out.println("Pasados  "+days+ " dias se obtiene un total de "+total+ " cajas producidas");
     }
 
     private void executeStation(int index){
 
 
+    }
+
+    public ArrayList<String> getStages(){
+        return stages;
+    }
+
+    public int getTotalProduction() {
+        return totalProduction;
     }
 }
