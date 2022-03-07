@@ -20,8 +20,10 @@ public class MainWindow extends JFrame {
     private ElementStation elementCutting;
     private ElementStation elementLabeled;
     private JButton buttonInitSimulation;
+    private Color backgroundColor;
 
     public MainWindow(ControllerApp controllerApp){
+        backgroundColor = Color.decode("#F6E9E8");
         this.setLayout(new BorderLayout());
         this.setTitle("Fabrica de bocadillos <Inserte nombre>");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +39,7 @@ public class MainWindow extends JFrame {
         panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.setBorder(new EmptyBorder(20,20,20,20));
-        panelPrincipal.setBackground(Color.WHITE);
+        panelPrincipal.setBackground(backgroundColor);
         Font titleFont = new Font("Arial Narrow", Font.BOLD,35);
         labelTitle = new JLabel("Simulador de cadena de producción de bocadillos");
         labelTitle.setFont(titleFont);
@@ -46,7 +48,7 @@ public class MainWindow extends JFrame {
         panelMedium = new JPanel();
         panelMedium.setLayout(new BorderLayout());
         panelMedium.setBorder(new EmptyBorder(20,20,20,20));
-        panelMedium.setBackground(Color.WHITE);
+        panelMedium.setBackground(backgroundColor);
 
         Font detailsFont = new Font("Arial Narrow", Font.PLAIN,28);
         labelDetails = new JLabel("Por favor ingrese la cantidad de tiempo en minutos que tardara cada estación en terminar su proceso");
@@ -56,7 +58,7 @@ public class MainWindow extends JFrame {
         panelStations = new JPanel();
         panelStations.setLayout(new BoxLayout(panelStations, BoxLayout.Y_AXIS));
         panelStations.setBorder(new EmptyBorder(20,20,20,20));
-        panelStations.setBackground(Color.WHITE);
+        panelStations.setBackground(backgroundColor);
 
         elementRecep = new ElementStation("Recepción, lavado y preparación");
         panelStations.add(elementRecep);
@@ -80,7 +82,7 @@ public class MainWindow extends JFrame {
 
         JPanel panelDown = new JPanel();
         panelDown.setLayout(new BorderLayout());
-        panelDown.setBackground(Color.WHITE);
+        panelDown.setBackground(backgroundColor);
         panelDown.setBorder(new EmptyBorder(0,480,0,480));
         buttonInitSimulation = new JButton("Iniciar simulación");
         buttonInitSimulation.setBackground(Color.GREEN);

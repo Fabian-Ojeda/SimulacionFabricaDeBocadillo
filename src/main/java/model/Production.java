@@ -142,7 +142,7 @@ public class Production {
                     break;
             }
         }
-        stages.add("Pasados  "+days+ " dias se obtiene un total de "+totalProduction+ " cajas producidas");
+        stages.add("Pasados  "+(days-1)+ " dias se obtiene un total de "+totalProduction+ " cajas producidas");
         //System.out.println("Pasados  "+days+ " dias se obtiene un total de "+total+ " cajas producidas");
     }
 

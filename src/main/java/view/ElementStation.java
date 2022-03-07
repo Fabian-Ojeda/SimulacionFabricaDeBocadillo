@@ -10,9 +10,11 @@ public class ElementStation extends JPanel {
     private JLabel labelname;
     private JTextField textFieldQuantity;
     private JLabel labelMinutes;
+    private Color backgroundColor;
 
     public ElementStation(String name){
-        this.setBackground(Color.WHITE);
+        backgroundColor = Color.decode("#F6E9E8");
+        this.setBackground(backgroundColor);
         Font stationFont = new Font("Arial Narrow", Font.PLAIN,18);
         this.setLayout(new GridLayout(1,3));
         labelname = new JLabel(name);
