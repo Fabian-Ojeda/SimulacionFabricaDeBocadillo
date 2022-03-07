@@ -44,7 +44,11 @@ public class ElementStation extends JPanel {
     }
 
     public int getQuantity() {
-        return Integer.parseInt(textFieldQuantity.getText());
+        if (textFieldQuantity.getText().equals("")){
+            return 0;
+        }else {
+            return Integer.parseInt(textFieldQuantity.getText());
+        }
     }
 
     public void createExtraProcess(String name){
