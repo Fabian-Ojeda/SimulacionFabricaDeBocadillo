@@ -9,8 +9,6 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-    private GridSystem gridSystem;
-    private Dimension screenSize;
     private JPanel panelPrincipal;
     private JLabel labelTitle;
     private JLabel labelDetails;
@@ -24,11 +22,10 @@ public class MainWindow extends JFrame {
     private JButton buttonInitSimulation;
 
     public MainWindow(ControllerApp controllerApp){
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLayout(new BorderLayout());
         this.setTitle("Fabrica de bocadillos <Inserte nombre>");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension((screenSize.width/2),(screenSize.height/2)));
+        this.setPreferredSize(new Dimension(1200,500));
 
         this.getContentPane().setBackground(Color.CYAN);
         this.initComponents(controllerApp);
