@@ -37,23 +37,26 @@ public class MainWindow extends JFrame {
         panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.setBorder(new EmptyBorder(20,20,20,20));
-        panelPrincipal.setBackground(Color.BLUE);
-
+        panelPrincipal.setBackground(Color.WHITE);
+        Font titleFont = new Font("Arial Narrow", Font.BOLD,35);
         labelTitle = new JLabel("Simulador de cadena de producción de bocadillos");
+        labelTitle.setFont(titleFont);
         panelPrincipal.add(labelTitle, BorderLayout.NORTH);
 
         panelMedium = new JPanel();
         panelMedium.setLayout(new BorderLayout());
         panelMedium.setBorder(new EmptyBorder(20,20,20,20));
-        panelMedium.setBackground(Color.pink);
+        panelMedium.setBackground(Color.WHITE);
 
+        Font detailsFont = new Font("Arial Narrow", Font.PLAIN,28);
         labelDetails = new JLabel("Por favor ingrese la cantidad de tiempo en minutos que tardara cada estación en terminar su proceso");
+        labelDetails.setFont(detailsFont);
         panelMedium.add(labelDetails, BorderLayout.NORTH);
 
         panelStations = new JPanel();
         panelStations.setLayout(new BoxLayout(panelStations, BoxLayout.Y_AXIS));
         panelStations.setBorder(new EmptyBorder(20,20,20,20));
-        panelStations.setBackground(Color.YELLOW);
+        panelStations.setBackground(Color.WHITE);
 
         elementRecep = new ElementStation("Recepción, lavado y preparación");
         panelStations.add(elementRecep);
@@ -75,10 +78,17 @@ public class MainWindow extends JFrame {
         panelMedium.add(panelStations, BorderLayout.CENTER);
         panelPrincipal.add(panelMedium,BorderLayout.CENTER);
 
+        JPanel panelDown = new JPanel();
+        panelDown.setLayout(new BorderLayout());
+        panelDown.setBackground(Color.WHITE);
+        panelDown.setBorder(new EmptyBorder(0,480,0,480));
         buttonInitSimulation = new JButton("Iniciar simulación");
+        buttonInitSimulation.setBackground(Color.GREEN);
         buttonInitSimulation.setActionCommand(Commands.C_START_SIMULATION.name());
         buttonInitSimulation.addActionListener(controllerApp);
-        panelPrincipal.add(buttonInitSimulation, BorderLayout.SOUTH);
+        panelDown.add(buttonInitSimulation, BorderLayout.CENTER);
+
+        panelPrincipal.add(panelDown, BorderLayout.SOUTH);
         this.add(panelPrincipal, BorderLayout.CENTER);
     }
 
