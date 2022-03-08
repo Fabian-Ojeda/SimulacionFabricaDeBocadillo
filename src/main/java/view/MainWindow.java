@@ -159,7 +159,11 @@ public class MainWindow extends JFrame {
     }
 
     public int getTonsQuantity(){
-        return Integer.parseInt(textQuantityIn.getText());
+        if (textQuantityIn.getText().equals("")){
+            return 0;
+        }else {
+            return Integer.parseInt(textQuantityIn.getText());
+        }
     }
 
 }
