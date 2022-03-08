@@ -37,7 +37,8 @@ public class ControllerApp implements ActionListener {
 
     private void initSimulation(){
         production.generateStations(mainWindow.getValueRecept(),mainWindow.getValueCooking(), mainWindow.getValueMold(), mainWindow.getValueCutting(), mainWindow.getValueLabeled());
-        production.startProduction();
+        production.startProduction(mainWindow.getTonsQuantity());
+        System.out.println("Finalizo la simulación");
         results.setHistory(production.getStages());
         results.setTotalProduction(production.getTotalProduction());
         results.setVisible(true);

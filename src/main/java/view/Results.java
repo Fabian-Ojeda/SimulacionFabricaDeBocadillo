@@ -21,7 +21,6 @@ public class Results extends JFrame {
         backgroundColor = Color.decode("#F6E9E8");
         this.setLayout(new BorderLayout());
         this.setTitle("Resultados de simulación");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(910,450));
 
         this.getContentPane().setBackground(backgroundColor);
@@ -84,6 +83,6 @@ public class Results extends JFrame {
     }
 
     public void setTotalProduction(int totalProduction){
-        labelResult.setText(totalProduction+" toneladas");
+        labelResult.setText(totalProduction+" cajas");
     }
 }

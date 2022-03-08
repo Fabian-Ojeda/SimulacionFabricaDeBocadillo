@@ -7,10 +7,12 @@ public class Station {
     private int process;
     private int end;
     private ExtraProcess extraProcess;
+    private boolean autoEnded;
 
-    public Station(String name, int process){
+    public Station(String name, int process, boolean autoEnded){
         this.name = name;
         this.process = process;
+        this.autoEnded = autoEnded;
     }
 
     public String getName() {
@@ -25,11 +27,11 @@ public class Station {
         return start;
     }
 
-    public void executeStation(){
+    public void executeStation(int tonsIn){
         if (extraProcess!=null){
-            end=start+process+extraProcess.getDuration();
+            end=start+((process+extraProcess.getDuration())*tonsIn);
         }else {
-            end=start+process;
+            end=start+(process*tonsIn);
         }
     }
 
@@ -51,5 +53,9 @@ public class Station {
 
     public boolean hasExtraProcess(){
         return extraProcess!=null;
+    }
+
+    public Boolean getAutoEnded(){
+        return autoEnded;
     }
 }

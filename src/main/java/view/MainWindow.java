@@ -6,6 +6,8 @@ import controllerApp.ControllerApp;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MainWindow extends JFrame {
 
@@ -19,6 +21,9 @@ public class MainWindow extends JFrame {
     private ElementStation elementMold;
     private ElementStation elementCutting;
     private ElementStation elementLabeled;
+    private JPanel panelQuantities;
+    private JLabel labelQuantityIN;
+    private JTextField textQuantityIn;
     private JButton buttonInitSimulation;
     private Color backgroundColor;
 
@@ -27,7 +32,7 @@ public class MainWindow extends JFrame {
         this.setLayout(new BorderLayout());
         this.setTitle("Fabrica de bocadillos <Inserte nombre>");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(1200,500));
+        this.setPreferredSize(new Dimension(1200,400));
 
         this.getContentPane().setBackground(Color.CYAN);
         this.initComponents(controllerApp);
@@ -46,15 +51,50 @@ public class MainWindow extends JFrame {
         panelPrincipal.add(labelTitle, BorderLayout.NORTH);
 
         panelMedium = new JPanel();
-        panelMedium.setLayout(new BorderLayout());
-        panelMedium.setBorder(new EmptyBorder(20,20,20,20));
+        panelMedium.setLayout(new GridBagLayout());
+        panelMedium.setBorder(new EmptyBorder(20,20,0,20));
         panelMedium.setBackground(backgroundColor);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0; // El área de texto empieza en la columna cero.
+        constraints.gridy = 0; // El área de texto empieza en la fila cero
+        constraints.gridwidth = 1; // El área de texto ocupa dos columnas.
+        constraints.gridheight = 1; // El área de texto ocupa 2 filas.
 
         Font detailsFont = new Font("Arial Narrow", Font.PLAIN,28);
         labelDetails = new JLabel("Por favor ingrese la cantidad de tiempo en minutos que tardara cada estación en terminar su proceso");
         labelDetails.setFont(detailsFont);
-        panelMedium.add(labelDetails, BorderLayout.NORTH);
+        panelMedium.add(labelDetails, constraints);
+        panelQuantities = new JPanel();
+        panelQuantities.setBackground(backgroundColor);
+        panelQuantities.setBorder(new EmptyBorder(20,0,20,0));
+        panelQuantities.setLayout(new GridLayout(1,2));
+        labelQuantityIN = new JLabel("Toneladas de materia prima que sera ingresada por ciclo de producción:");
+        Font quantityFont = new Font("Arial Narrow", Font.PLAIN,18);
+        labelQuantityIN.setFont(quantityFont);
+        panelQuantities.add(labelQuantityIN);
+        textQuantityIn = new JTextField();
+        textQuantityIn.setFont(quantityFont);
+        textQuantityIn.addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char caracter = e.getKeyChar();
 
+                if(((caracter < '0') ||
+                        (caracter > '9')) &&
+                        (caracter != '\b'))
+                {
+                    e.consume();
+                }
+            }
+        });
+        panelQuantities.add(textQuantityIn);
+        //panelQuantities.setPreferredSize(new Dimension(50,50));
+        constraints.gridx = 0; // El área de texto empieza en la columna cero.
+        constraints.gridy = 1; // El área de texto empieza en la fila cero
+        constraints.gridwidth = 1; // El área de texto ocupa dos columnas.
+        constraints.gridheight = 1; // El área de texto ocupa 2 filas.
+        panelMedium.add(panelQuantities, constraints);
         panelStations = new JPanel();
         panelStations.setLayout(new BoxLayout(panelStations, BoxLayout.Y_AXIS));
         panelStations.setBorder(new EmptyBorder(20,20,20,20));
@@ -77,7 +117,11 @@ public class MainWindow extends JFrame {
 
         elementLabeled = new ElementStation("Embalado y etiquetado");
         panelStations.add(elementLabeled);
-        panelMedium.add(panelStations, BorderLayout.CENTER);
+        constraints.gridx = 0; // El área de texto empieza en la columna cero.
+        constraints.gridy = 2; // El área de texto empieza en la fila cero
+        constraints.gridwidth = 1; // El área de texto ocupa dos columnas.
+        constraints.gridheight = 5; // El área de texto ocupa 4 filas.
+        panelMedium.add(panelStations, constraints);
         panelPrincipal.add(panelMedium,BorderLayout.CENTER);
 
         JPanel panelDown = new JPanel();
@@ -112,6 +156,10 @@ public class MainWindow extends JFrame {
 
     public Integer getValueLabeled(){
         return elementLabeled.getQuantity();
+    }
+
+    public int getTonsQuantity(){
+        return Integer.parseInt(textQuantityIn.getText());
     }
 
 }

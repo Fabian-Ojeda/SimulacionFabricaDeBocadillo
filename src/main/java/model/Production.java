@@ -16,6 +16,7 @@ public class Production {
     private int excedentMinutesStartingDay;
     private int totalProduction;
     private ArrayList<String> stages;
+    private int tonsIn;
 
     public Production(){
         arrayStations = new ArrayList<>();
@@ -27,17 +28,18 @@ public class Production {
         pastMinutes = 0;
         excedentMinutesStartingDay = 0;
         stages = new ArrayList<>();
+        tonsIn = 0;
     }
 
     public void generateStations(int valueRecept, int valueCooking, int valueMold, int valueCutting, int valueLabeled){
-        Station recept = new Station("Recepción, lavado y preparación", valueRecept);
-        Station cooking = new Station("Despulpado y Cocción", valueCooking);
+        Station recept = new Station("Recepción, lavado y preparación", valueRecept, false);
+        Station cooking = new Station("Despulpado y Cocción", valueCooking, true);
         cooking.setExtraProcess(new ExtraProcess("Cocinado", 45));
-        Station mold = new Station("Punteo y Moldeo", valueMold);
+        Station mold = new Station("Punteo y Moldeo", valueMold, true);
         mold.setExtraProcess(new ExtraProcess("Enfriamiento", 2880));
-        Station cutting = new Station("Corte y empacado", valueCutting);
+        Station cutting = new Station("Corte y empacado", valueCutting, true);
         cutting.setExtraProcess(new ExtraProcess("secamiento", 720));
-        Station labeled = new Station("Embalado y etiquetado", valueLabeled);
+        Station labeled = new Station("Embalado y etiquetado", valueLabeled, false);
         arrayStations.add(recept);
         arrayStations.add(cooking);
         arrayStations.add(mold);
@@ -45,7 +47,8 @@ public class Production {
         arrayStations.add(labeled);
     }
 
-    public void startProduction(){
+    public void startProduction(int tons){
+        tonsIn=tons;
         stages.clear();
         days = 1;
         totalProduction =0;
@@ -94,23 +97,29 @@ public class Production {
                     break;
             }
         }
-        stages.add("Pasados  "+(days-1)+ " dias se obtiene un total de "+totalProduction+ " toneladas producidas");
+        stages.add("Pasados  "+(days-1)+ " dias se obtiene un total de "+totalProduction+ " cajas de bocadillo producidas");
     }
 
     private void executeStation(){
-        arrayStations.get(iteratorProcess-1).executeStation();
-        timeAdvanceDay = arrayStations.get(iteratorProcess-1).getEnd();
+        arrayStations.get(iteratorProcess-1).executeStation(tonsIn);
+        timeAdvanceDay = (arrayStations.get(iteratorProcess-1).getEnd());
         lastStart = timeAdvanceDay;
         stages.add("Tarea: "+arrayStations.get(iteratorProcess-1).getName()+" Minuto de inicio: "+arrayStations.get(iteratorProcess-1).getStart()+ " minuto de finalización: "+timeAdvanceDay+"\n");
         if (timeAdvanceDay > minutesWork){
-            pastMinutes = timeAdvanceDay-minutesWork;
-            days++;
-            stages.add("El tiempo de ejecución de la tarea excede en "+pastMinutes +" minutos el tiempo de la jornada laboral, se debe continuar el siguiente dia\n\nActividades del dia "+days+"\n");
+            if (arrayStations.get(iteratorProcess-1).getAutoEnded()){
+                pastMinutes = timeAdvanceDay-minutesWork;
+                days++;
+                stages.add("El tiempo de ejecución de la tarea excede en "+pastMinutes +" minutos el tiempo de la jornada laboral, se debe continuar el siguiente dia\n\nActividades del dia "+days+"\n");
+            }else {
+                pastMinutes = minutesNextDay+timeAdvanceDay-minutesWork;
+                days++;
+                stages.add("El tiempo de ejecución de la tarea excede en "+(timeAdvanceDay-minutesWork) +" minutos el tiempo de la jornada laboral, se debe continuar con la actividad el siguiente dia\n\nActividades del dia "+days+"\n");
+            }
         }
         if (iteratorProcess==5){
-            totalProduction++;
+            totalProduction+=(50*tonsIn);
             iteratorProcess = 1;
-            stages.add("\nEN ESTE PUNTO SE HA TERMINADO DE FABRICAR UNA TONELADA\n");
+            stages.add("\nEN ESTE PUNTO SE HA TERMINADO DE FABRICAR UNA TONELADA DE MATERIA PRIMA\n");
         }else {
             iteratorProcess++;
         }

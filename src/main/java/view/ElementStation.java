@@ -17,7 +17,7 @@ public class ElementStation extends JPanel {
         this.setBackground(backgroundColor);
         Font stationFont = new Font("Arial Narrow", Font.PLAIN,18);
         this.setLayout(new GridLayout(1,3));
-        labelname = new JLabel(name);
+        labelname = new JLabel(name, SwingConstants.RIGHT);
         labelname.setFont(stationFont);
         this.add(labelname);
         textFieldQuantity = new JTextField();
@@ -28,12 +28,11 @@ public class ElementStation extends JPanel {
             {
                 char caracter = e.getKeyChar();
 
-                // Verificar si la tecla pulsada no es un digito
                 if(((caracter < '0') ||
                         (caracter > '9')) &&
-                        (caracter != '\b' /*corresponde a BACK_SPACE*/))
+                        (caracter != '\b'))
                 {
-                    e.consume();  // ignorar el evento de teclado
+                    e.consume();
                 }
             }
         });
