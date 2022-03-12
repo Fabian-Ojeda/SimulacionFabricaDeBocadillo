@@ -44,7 +44,7 @@ public class Results extends JFrame {
         panelTons.setLayout(new GridLayout(1,2));
         panelTons.setBackground(backgroundColor);
         Font detailFont = new Font("Arial Narrow", Font.PLAIN,23);
-        labelEnunc = new JLabel("Toneladas producidas");
+        labelEnunc = new JLabel("Cajas producidas");
         labelEnunc.setFont(detailFont);
         //labelEnunc.setAlignmentX(SwingConstants.WEST);
         panelTons.add(labelEnunc);
