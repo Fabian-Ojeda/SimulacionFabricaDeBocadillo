@@ -3,7 +3,6 @@ package controllerApp;
 import model.Production;
 import view.MainWindow;
 import view.Results;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

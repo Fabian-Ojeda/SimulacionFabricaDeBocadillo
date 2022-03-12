@@ -119,7 +119,7 @@ public class Production {
         if (iteratorProcess==5){
             totalProduction+=(50*tonsIn);
             iteratorProcess = 1;
-            stages.add("\nEN ESTE PUNTO SE HA TERMINADO DE FABRICAR UNA TONELADA DE MATERIA PRIMA\n");
+            stages.add("\nEN ESTE PUNTO SE HAN TERMINADO DE FABRICAR 50 CAJAS DE BOCADILLO\n");
         }else {
             iteratorProcess++;
         }
